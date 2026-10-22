@@ -11,12 +11,40 @@ definitions:
       password_hash:
         type: string
     type: object
+  dto.GetUserRequest:
+    properties:
+      email:
+        type: string
+      password_hash:
+        type: string
+    type: object
 host: localhost:9000
 info:
   contact: {}
   title: Plusone API
   version: "1"
 paths:
+  /user/auth:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: тело запроса
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/dto.GetUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "422":
+          description: Unprocessable Entity
+        "500":
+          description: Internal Server Error
+      summary: Аутентификация пользователя
   /user/create:
     post:
       consumes:
