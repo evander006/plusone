@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:plusone/auth/login_page.dart';
-import 'package:plusone/auth/register_page.dart';
-import 'package:plusone/theme/plusone_theme.dart';
+import 'package:plusone/frontend/ui/auth/widgets/login_screen.dart';
+import 'package:plusone/frontend/ui/auth/widgets/register_screen.dart';
+import 'package:plusone/frontend/ui/core/themes/plusone_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,10 +16,10 @@ class MyApp extends StatelessWidget {
      // title: 'plusone.',
       debugShowCheckedModeBanner: false,
       theme: PlusoneTheme.light(),
-      initialRoute: LoginPage.routeName,
+      initialRoute: LoginScreen.routeName,
       routes: {
-        LoginPage.routeName: (_) => const LoginPage(),
-        RegisterPage.routeName: (_) => const RegisterPage(),
+        LoginScreen.routeName: (_) => const LoginScreen(),
+        RegisterScreen.routeName: (_) => const RegisterScreen(),
       },
     );
   }
