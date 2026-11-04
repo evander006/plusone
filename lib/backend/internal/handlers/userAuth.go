@@ -53,12 +53,12 @@ func (u *UserApi) create(c fiber.Ctx) error {
 	id := uuid.New().String()
 
 	_, err = u.db.Insert("users").Rows(goqu.Record{
-		"id":            id,
-		"display_name":  req.DisplayName,
-		"email":         req.Email,
-		"city":          req.City,
-		"password_hash": string(hashedPass),
-		"created_at":    time.Now(),
+		"id":           id,
+		"display_name": req.DisplayName,
+		"email":        req.Email,
+		"city":         req.City,
+		"password_hash":     string(hashedPass),
+		"created_at":   time.Now(),
 	}).Executor().ExecContext(ctx)
 	if err != nil {
 		out, _ := json.Marshal(dto.ErrorResponse{
@@ -95,7 +95,7 @@ func (u *UserApi) auth(c fiber.Ctx) error {
 		log.Error(err.Error())
 		return c.SendStatus(fiber.StatusUnprocessableEntity)
 	}
-	found, err := u.db.From("users").Select("id", "email", "display_name", "city", "password_hash", "created_at").
+	found, err := u.db.From("users").Select("id", "email", "display_name", "city", "password", "created_at").
 		Where(goqu.L("lower(email)=lower(?)", req.Email)).
 		Executor().ScanStructContext(ctx, &user)
 	if err != nil {

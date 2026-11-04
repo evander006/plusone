@@ -9,11 +9,8 @@ part of 'user_auth_model.dart';
 _UserAuthModel _$UserAuthModelFromJson(Map<String, dynamic> json) =>
     _UserAuthModel(
       email: json['email'] as String,
-      passwordHash: json['passwordHash'] as String,
+      password: json['password'] as String,
     );
 
 Map<String, dynamic> _$UserAuthModelToJson(_UserAuthModel instance) =>
-    <String, dynamic>{
-      'email': instance.email,
-      'passwordHash': instance.passwordHash,
-    };
+    <String, dynamic>{'email': instance.email, 'password': instance.password};

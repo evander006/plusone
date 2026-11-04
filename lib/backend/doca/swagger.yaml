@@ -23,14 +23,14 @@ definitions:
         type: string
       email:
         type: string
-      password_hash:
+      password:
         type: string
     type: object
   plusone_internal_dto.GetUserRequest:
     properties:
       email:
         type: string
-      password_hash:
+      password:
         type: string
     type: object
   plusone_internal_models.Event:
@@ -72,7 +72,7 @@ definitions:
         type: array
       id:
         type: string
-      password_hash:
+      password:
         type: string
     type: object
 host: localhost:9000

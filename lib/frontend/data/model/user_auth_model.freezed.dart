@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserAuthModel {
 
- String get email; String get passwordHash;
+ String get email; String get password;
 /// Create a copy of UserAuthModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $UserAuthModelCopyWith<UserAuthModel> get copyWith => _$UserAuthModelCopyWithImp
 @override
 bool operator ==(Object other) {
   final _this = this as UserAuthModel;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserAuthModel&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.passwordHash, _this.passwordHash) || other.passwordHash == _this.passwordHash));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserAuthModel&&(identical(other.email, _this.email) || other.email == _this.email)&&(identical(other.password, _this.password) || other.password == _this.password));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as UserAuthModel;
-  return Object.hash(runtimeType,_this.email,_this.passwordHash);
+  return Object.hash(runtimeType,_this.email,_this.password);
 }
 
 @override
 String toString() {
   final _this = this as UserAuthModel;
-  return 'UserAuthModel(email: ${_this.email}, passwordHash: ${_this.passwordHash})';
+  return 'UserAuthModel(email: ${_this.email}, password: ${_this.password})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $UserAuthModelCopyWith<$Res>  {
   factory $UserAuthModelCopyWith(UserAuthModel value, $Res Function(UserAuthModel) _then) = _$UserAuthModelCopyWithImpl;
 @useResult
 $Res call({
- String email, String passwordHash
+ String email, String password
 });
 
 
@@ -71,10 +71,10 @@ class _$UserAuthModelCopyWithImpl<$Res>
 
 /// Create a copy of UserAuthModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? passwordHash = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? email = null,Object? password = null,}) {
   return _then(UserAuthModel(
 email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,passwordHash: null == passwordHash ? _self.passwordHash : passwordHash // ignore: cast_nullable_to_non_nullable
+as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -160,10 +160,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String email,  String passwordHash)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String email,  String password)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserAuthModel() when $default != null:
-return $default(_that.email,_that.passwordHash);case _:
+return $default(_that.email,_that.password);case _:
   return orElse();
 
 }
@@ -181,10 +181,10 @@ return $default(_that.email,_that.passwordHash);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email,  String passwordHash)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email,  String password)  $default,) {final _that = this;
 switch (_that) {
 case _UserAuthModel():
-return $default(_that.email,_that.passwordHash);case _:
+return $default(_that.email,_that.password);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +201,10 @@ return $default(_that.email,_that.passwordHash);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String email,  String passwordHash)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String email,  String password)?  $default,) {final _that = this;
 switch (_that) {
 case _UserAuthModel() when $default != null:
-return $default(_that.email,_that.passwordHash);case _:
+return $default(_that.email,_that.password);case _:
   return null;
 
 }
@@ -216,11 +216,11 @@ return $default(_that.email,_that.passwordHash);case _:
 @JsonSerializable()
 
 class _UserAuthModel implements UserAuthModel {
-  const _UserAuthModel({required this.email, required this.passwordHash});
+  const _UserAuthModel({required this.email, required this.password});
   factory _UserAuthModel.fromJson(Map<String, dynamic> json) => _$UserAuthModelFromJson(json);
 
 @override final  String email;
-@override final  String passwordHash;
+@override final  String password;
 
 /// Create a copy of UserAuthModel
 /// with the given fields replaced by the non-null parameter values.
@@ -235,18 +235,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserAuthModel&&(identical(other.email, email) || other.email == email)&&(identical(other.passwordHash, passwordHash) || other.passwordHash == passwordHash));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserAuthModel&&(identical(other.email, email) || other.email == email)&&(identical(other.password, password) || other.password == password));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,email,passwordHash);
+    return Object.hash(runtimeType,email,password);
 }
 
 @override
 String toString() {
-    return 'UserAuthModel(email: $email, passwordHash: $passwordHash)';
+    return 'UserAuthModel(email: $email, password: $password)';
 }
 
 
@@ -257,7 +257,7 @@ abstract mixin class _$UserAuthModelCopyWith<$Res> implements $UserAuthModelCopy
   factory _$UserAuthModelCopyWith(_UserAuthModel value, $Res Function(_UserAuthModel) _then) = __$UserAuthModelCopyWithImpl;
 @override @useResult
 $Res call({
- String email, String passwordHash
+ String email, String password
 });
 
 
@@ -274,10 +274,10 @@ class __$UserAuthModelCopyWithImpl<$Res>
 
 /// Create a copy of UserAuthModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? passwordHash = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? email = null,Object? password = null,}) {
   return _then(_UserAuthModel(
 email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
-as String,passwordHash: null == passwordHash ? _self.passwordHash : passwordHash // ignore: cast_nullable_to_non_nullable
+as String,password: null == password ? _self.password : password // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

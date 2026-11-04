@@ -217,7 +217,7 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "password_hash": {
+                "password": {
                     "type": "string"
                 }
             }
@@ -228,7 +228,7 @@ const docTemplate = `{
                 "email": {
                     "type": "string"
                 },
-                "password_hash": {
+                "password": {
                     "type": "string"
                 }
             }
@@ -292,7 +292,7 @@ const docTemplate = `{
                 "id": {
                     "type": "string"
                 },
-                "password_hash": {
+                "password": {
                     "type": "string"
                 }
             }

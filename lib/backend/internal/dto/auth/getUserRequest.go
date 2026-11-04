@@ -1,6 +1,6 @@
 package auth
 
 type GetUserRequest struct {
-	Email        string `json:"email"`
-	PasswordHash string `json:"password_hash"`
+	Email    string `json:"email"`
+	PasswordHash string `json:"password"`
 }

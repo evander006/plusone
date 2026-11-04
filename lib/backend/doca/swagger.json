@@ -210,7 +210,7 @@
                 "email": {
                     "type": "string"
                 },
-                "password_hash": {
+                "password": {
                     "type": "string"
                 }
             }
@@ -221,7 +221,7 @@
                 "email": {
                     "type": "string"
                 },
-                "password_hash": {
+                "password": {
                     "type": "string"
                 }
             }
@@ -285,7 +285,7 @@
                 "id": {
                     "type": "string"
                 },
-                "password_hash": {
+                "password": {
                     "type": "string"
                 }
             }

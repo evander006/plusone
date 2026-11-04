@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:plusone/frontend/data/model/user_auth_model.dart';
+import 'package:plusone/frontend/ui/auth/view_models/auth_view_model.dart';
 import 'package:plusone/frontend/ui/auth/widgets/auth_shell.dart';
 import 'package:plusone/frontend/ui/auth/widgets/register_screen.dart';
 import 'package:plusone/frontend/ui/core/themes/plusone_colors.dart';
 import 'package:plusone/frontend/ui/core/widgets/plusone_button.dart';
 import 'package:plusone/frontend/ui/core/widgets/plusone_text_field.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,7 +23,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
-  bool _submitting = false;
 
   @override
   void dispose() {
@@ -31,22 +33,21 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
-
-    setState(() => _submitting = true);
-    await Future<void>.delayed(const Duration(milliseconds: 600));
-    if (!mounted) return;
-    setState(() => _submitting = false);
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'Вход: ${_emailController.text.trim()}',
-          style: GoogleFonts.inter(fontWeight: FontWeight.w600),
-        ),
-        backgroundColor: PlusoneColors.ink,
-        behavior: SnackBarBehavior.floating,
+    final vm = context.read<AuthViewModel>();
+    final success = await vm.authUser(
+      UserAuthModel(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
       ),
     );
+    if (!mounted) return;
+    if (success) {
+      Navigator.of(context).pushReplacementNamed('/home');
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(vm.errorMessage ?? 'Ошибка авторизации')),
+      );
+    }
   }
 
   @override
@@ -59,14 +60,12 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Text(
             'Нет аккаунта?',
-            style: GoogleFonts.inter(
-              color: PlusoneColors.slate,
-              fontSize: 14,
-            ),
+            style: GoogleFonts.inter(color: PlusoneColors.slate, fontSize: 14),
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context).pushReplacementNamed(RegisterScreen.routeName);
+              Navigator.of(context)
+                  .pushReplacementNamed(RegisterScreen.routeName);
             },
             child: Text(
               'Регистрация',
@@ -159,10 +158,18 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(height: 8),
-            PlusoneButton(
-              label: _submitting ? 'Входим…' : 'Войти',
-              variant: PlusoneButtonVariant.club,
-              onPressed: _submitting ? null : _submit,
+            Consumer<AuthViewModel>(
+              builder: (context, vm, child) {
+                return PlusoneButton(
+                  label: vm.loading
+                      ? 'Входим…'
+                      : 'Войти',
+                  variant: PlusoneButtonVariant.club,
+                  onPressed: vm.loading
+                      ? null
+                      : _submit,
+                );
+              },
             ),
           ],
         ),
