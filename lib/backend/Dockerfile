@@ -1,5 +1,5 @@
 # Use the official Golang image as the base image
-FROM golang:1.19 AS builder
+FROM golang:1.24 AS builder
 # Set the working directory inside the container
 WORKDIR /app
 # Copy go.mod and go.sum files to download dependencies
@@ -10,7 +10,7 @@ COPY . .
 # Build the Go application
 RUN CGO_ENABLED=0 GOOS=linux go build -o server ./cmd/app
 # Use a minimal base image for production
-FROM alpine:3.16
+FROM alpine:3.21
 # Set working directory in the minimal image
 WORKDIR /app
 COPY --from=builder /app/server ./server
