@@ -9,7 +9,7 @@ class UserService {
   Future<String> authUser(UserAuthModel user) async {
     final response = await _dio.post(
       "/user/auth",
-      data: {"email": user.email, "password": user.password},
+      data: user.toJson(),
     );
     return response.data["access_token"] as String;
   }
@@ -17,12 +17,7 @@ class UserService {
   Future<String> registerUser(UserRegisterModel user) async {
     final response = await _dio.post(
       "/user/create",
-      data: {
-        "email": user.email,
-        "display_name": user.displayName,
-        "city": user.city,
-        "password": user.password,
-      },
+      data:user.toJson(),
     );
     return response.data["access_token"] as String;
   }

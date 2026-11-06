@@ -7,9 +7,9 @@ part 'user_register_model.g.dart';
 abstract class UserRegisterModel with _$UserRegisterModel {
   const factory UserRegisterModel({
     required String email,
-    required String displayName,
+    @JsonKey(name: 'display_name') required String displayName,
     required String city,
-    required String password,
+    @JsonKey(name: 'password_hash') required String password,
   }) = _UserRegisterModel;
 
   factory UserRegisterModel.fromJson(Map<String, dynamic> json) =>

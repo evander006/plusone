@@ -7,6 +7,8 @@ import 'package:plusone/frontend/ui/core/themes/plusone_theme.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  startUp();
   runApp(const MyApp());
 }
 

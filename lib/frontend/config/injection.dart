@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:plusone/frontend/config/api_client.dart';
 import 'package:plusone/frontend/data/repositories/user_repository.dart';
 import 'package:plusone/frontend/data/repositories/user_repository_remote.dart';
 import 'package:plusone/frontend/data/services/user_service.dart';
@@ -12,7 +13,7 @@ void startUp() {
   getIt.registerLazySingleton<Dio>(
     () => Dio(
       BaseOptions(
-        baseUrl: String.fromEnvironment("BASE_URL_PROD"),
+        baseUrl: baseUrl,
         connectTimeout: const Duration(seconds: 60),
         receiveTimeout: const Duration(seconds: 60),
       ),

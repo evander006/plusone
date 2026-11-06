@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserRegisterModel {
 
- String get email; String get displayName; String get city; String get password;
+ String get email;@JsonKey(name: 'display_name') String get displayName; String get city;@JsonKey(name: 'password_hash') String get password;
 /// Create a copy of UserRegisterModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -54,7 +54,7 @@ abstract mixin class $UserRegisterModelCopyWith<$Res>  {
   factory $UserRegisterModelCopyWith(UserRegisterModel value, $Res Function(UserRegisterModel) _then) = _$UserRegisterModelCopyWithImpl;
 @useResult
 $Res call({
- String email, String displayName, String city, String password
+ String email,@JsonKey(name: 'display_name') String displayName, String city,@JsonKey(name: 'password_hash') String password
 });
 
 
@@ -162,7 +162,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String email,  String displayName,  String city,  String password)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String email, @JsonKey(name: 'display_name')  String displayName,  String city, @JsonKey(name: 'password_hash')  String password)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserRegisterModel() when $default != null:
 return $default(_that.email,_that.displayName,_that.city,_that.password);case _:
@@ -183,7 +183,7 @@ return $default(_that.email,_that.displayName,_that.city,_that.password);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email,  String displayName,  String city,  String password)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email, @JsonKey(name: 'display_name')  String displayName,  String city, @JsonKey(name: 'password_hash')  String password)  $default,) {final _that = this;
 switch (_that) {
 case _UserRegisterModel():
 return $default(_that.email,_that.displayName,_that.city,_that.password);case _:
@@ -203,7 +203,7 @@ return $default(_that.email,_that.displayName,_that.city,_that.password);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String email,  String displayName,  String city,  String password)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String email, @JsonKey(name: 'display_name')  String displayName,  String city, @JsonKey(name: 'password_hash')  String password)?  $default,) {final _that = this;
 switch (_that) {
 case _UserRegisterModel() when $default != null:
 return $default(_that.email,_that.displayName,_that.city,_that.password);case _:
@@ -218,13 +218,13 @@ return $default(_that.email,_that.displayName,_that.city,_that.password);case _:
 @JsonSerializable()
 
 class _UserRegisterModel implements UserRegisterModel {
-  const _UserRegisterModel({required this.email, required this.displayName, required this.city, required this.password});
+  const _UserRegisterModel({required this.email, @JsonKey(name: 'display_name') required this.displayName, required this.city, @JsonKey(name: 'password_hash') required this.password});
   factory _UserRegisterModel.fromJson(Map<String, dynamic> json) => _$UserRegisterModelFromJson(json);
 
 @override final  String email;
-@override final  String displayName;
+@override@JsonKey(name: 'display_name') final  String displayName;
 @override final  String city;
-@override final  String password;
+@override@JsonKey(name: 'password_hash') final  String password;
 
 /// Create a copy of UserRegisterModel
 /// with the given fields replaced by the non-null parameter values.
@@ -261,7 +261,7 @@ abstract mixin class _$UserRegisterModelCopyWith<$Res> implements $UserRegisterM
   factory _$UserRegisterModelCopyWith(_UserRegisterModel value, $Res Function(_UserRegisterModel) _then) = __$UserRegisterModelCopyWithImpl;
 @override @useResult
 $Res call({
- String email, String displayName, String city, String password
+ String email,@JsonKey(name: 'display_name') String displayName, String city,@JsonKey(name: 'password_hash') String password
 });
 
 

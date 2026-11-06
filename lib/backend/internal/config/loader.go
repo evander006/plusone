@@ -1,13 +1,19 @@
 package config
 
 import (
+	"log"
 	"os"
 
 	"github.com/joho/godotenv"
 )
 
 func Get() Config {
-	_ = godotenv.Load() // local .env; on Render env vars come from dashboard
+	env:=os.Getenv("APP_ENV")
+	if env=="dev" || env=="" {
+		if err:= godotenv.Load("internal/config/.env.dev"); err!=nil{
+			log.Println("Development .env not found, using system environment")
+		}
+	}
 
 	sslMode := os.Getenv("PG_SSLMODE")
 	if sslMode == "" {
