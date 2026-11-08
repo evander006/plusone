@@ -18,7 +18,7 @@ class AuthViewModel extends ChangeNotifier {
     : _userRepository = userRepository;
 
   UserRepository get authRepository => _userRepository;
-  String? get accessTOken => _accessToken;
+  String? get accessToken => _accessToken;
 
   Future<bool> authUser(UserAuthModel user) async {
     return await _executeAuth(() => _userRepository.authUser(user));
@@ -34,16 +34,13 @@ class AuthViewModel extends ChangeNotifier {
     notifyListeners();
     try {
       _accessToken = await request();
-
       return true;
     } on DioException catch (e) {
-      final responseData = e.response?.data;
-      _errorMessage = responseData['message']?.toString();
-      _errorMessage ??= switch (e.response?.statusCode) {
+      _errorMessage = switch (e.response?.statusCode) {
         401 => 'Неверный email или пароль',
-        409 => 'Пользователь уже существует',
+        409 => 'Пользователь с таким email уже зарегистрирован',
         422 => 'Некорректные данные',
-        _ => 'Ошибка соединения с сервером',
+        _ => _messageFromResponse(e) ?? 'Ошибка соединения с сервером',
       };
       return false;
     } catch (e) {
@@ -53,5 +50,13 @@ class AuthViewModel extends ChangeNotifier {
       _loading = false;
       notifyListeners();
     }
+  }
+
+  String? _messageFromResponse(DioException e) {
+    final data = e.response?.data;
+    if (data is Map && data['message'] != null) {
+      return data['message'].toString();
+    }
+    return null;
   }
 }

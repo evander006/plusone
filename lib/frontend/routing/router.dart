@@ -5,6 +5,10 @@ import 'package:plusone/home_page.dart';
 
 final _router = GoRouter(
   routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => RegisterScreen(),
+    ),
     GoRoute(path: '/home', builder: (context, state) => HomePage()),
     GoRoute(path: '/register', builder: (context, state) => RegisterScreen()),
     GoRoute(path: '/login', builder: (context, state) => LoginScreen()),

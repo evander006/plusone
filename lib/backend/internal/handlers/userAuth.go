@@ -9,6 +9,7 @@ import (
 	"plusone/internal/dto"
 	auth2 "plusone/internal/dto/auth"
 	"plusone/internal/models"
+	"strings"
 	"time"
 	"uuid"
 
@@ -44,33 +45,63 @@ func (u *UserApi) create(c fiber.Ctx) error {
 
 	var req auth2.CreateUserRequest
 	if err := c.Bind().Body(&req); err != nil {
-		return c.SendStatus(fiber.StatusUnprocessableEntity)
+		return c.Status(fiber.StatusBadRequest).JSON(dto.ErrorResponse{
+			Message: "Invalid request body",
+		})
 	}
 	hashedPass, err := bcrypt.GenerateFromPassword([]byte(req.PasswordHash), bcrypt.DefaultCost)
 	if err != nil {
-		return c.SendStatus(fiber.StatusInternalServerError)
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Message: "Internal server error",
+		})
 	}
 	id := uuid.New().String()
 
+	var exists bool
+	_, err = u.db.From("users").
+		Select(goqu.L("1")).
+		Where(goqu.L("lower(email)=lower(?)", req.Email)).
+		Limit(1).
+		ScanValContext(ctx, &exists)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Message: "Failed to check email",
+		})
+	}
+	if exists {
+		return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+			Message: "Пользователь с таким email уже зарегистрирован",
+		})
+	}
+
 	_, err = u.db.Insert("users").Rows(goqu.Record{
-		"id":           id,
-		"display_name": req.DisplayName,
-		"email":        req.Email,
-		"city":         req.City,
-		"password_hash":     string(hashedPass),
-		"created_at":   time.Now(),
+		"id":            id,
+		"display_name":  req.DisplayName,
+		"email":         req.Email,
+		"city":          req.City,
+		"password_hash": string(hashedPass),
+		"created_at":    time.Now(),
 	}).Executor().ExecContext(ctx)
 	if err != nil {
-		out, _ := json.Marshal(dto.ErrorResponse{
-			Message: err.Error(),
-		})
+		errText := strings.ToLower(err.Error())
+		if strings.Contains(errText, "duplicate key") || strings.Contains(errText, "23505") ||
+			strings.Contains(errText, "users_email_unique") {
+			return c.Status(fiber.StatusConflict).JSON(dto.ErrorResponse{
+				Message: "Пользователь с таким email уже зарегистрирован",
+			})
+		}
+		out, _ := json.Marshal(dto.ErrorResponse{Message: err.Error()})
 		log.Error(string(out))
-		return c.SendStatus(fiber.StatusInternalServerError)
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Message: "Не удалось создать пользователя",
+		})
 	}
 	issuer := auth.NewIssuer(os.Getenv("JWT_SECRET"))
 	token, err := issuer.SignToken(id)
 	if err != nil {
-		return c.SendStatus(fiber.StatusInternalServerError)
+		return c.Status(fiber.StatusInternalServerError).JSON(dto.ErrorResponse{
+			Message: "Failed to generate token",
+		})
 	}
 	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
 		"access_token": token,
@@ -95,13 +126,17 @@ func (u *UserApi) auth(c fiber.Ctx) error {
 		log.Error(err.Error())
 		return c.SendStatus(fiber.StatusUnprocessableEntity)
 	}
-	found, err := u.db.From("users").Select("id", "email", "display_name", "city", "password", "created_at").
+	found, err := u.db.From("users").Select("id", "email", "display_name", "city", "password_hash", "created_at").
 		Where(goqu.L("lower(email)=lower(?)", req.Email)).
+		Order(goqu.I("created_at").Desc()).
+		Limit(1).
 		Executor().ScanStructContext(ctx, &user)
 	if err != nil {
+		out, _ := json.Marshal(dto.ErrorResponse{Message: err.Error()})
+		log.Error(string(out))
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
-	if !found || bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.PasswordHash)) != nil {
+	if !found || bcrypt.CompareHashAndPassword([]byte(user.PasswordHash), []byte(req.Password)) != nil {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 	issuer := auth.NewIssuer(os.Getenv("JWT_SECRET"))

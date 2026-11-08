@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:plusone/frontend/data/model/user_auth_model.dart';
 import 'package:plusone/frontend/ui/auth/view_models/auth_view_model.dart';
 import 'package:plusone/frontend/ui/auth/widgets/auth_shell.dart';
-import 'package:plusone/frontend/ui/auth/widgets/register_screen.dart';
 import 'package:plusone/frontend/ui/core/themes/plusone_colors.dart';
 import 'package:plusone/frontend/ui/core/widgets/plusone_button.dart';
 import 'package:plusone/frontend/ui/core/widgets/plusone_text_field.dart';
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
     if (!mounted) return;
     if (success) {
-      Navigator.of(context).pushReplacementNamed('/home');
+      context.go('/home');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(vm.errorMessage ?? 'Ошибка авторизации')),
@@ -64,8 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           TextButton(
             onPressed: () {
-              Navigator.of(context)
-                  .pushReplacementNamed(RegisterScreen.routeName);
+              context.go('/register');
             },
             child: Text(
               'Регистрация',
