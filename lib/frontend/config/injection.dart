@@ -5,7 +5,7 @@ import 'package:plusone/frontend/data/repositories/user_repository.dart';
 import 'package:plusone/frontend/data/repositories/user_repository_remote.dart';
 import 'package:plusone/frontend/data/services/user_service.dart';
 import 'package:plusone/frontend/ui/auth/view_models/auth_view_model.dart';
-import 'package:plusone/frontend/ui/core/api/interceptor.dart';
+import 'package:plusone/frontend/config/interceptor.dart';
 
 final getIt = GetIt.instance;
 

@@ -9,7 +9,7 @@ type Event struct {
 	Description    string    `json:"description" db:"description"`
 	StartsAt       time.Time `json:"starts_at" db:"starts_at"`
 	Address        string    `json:"address" db:"address"`
-	CategoryId     string    `json:"category_id" db:"category_id"`
 	CreatedAt      time.Time `json:"created_at" db:"created_at"`
-	Participants   []User    `json:"participants" gorm:"many2many:event_participants;"`
+	Categories   []Category `json:"categories,omitempty" db:"-"`
+    Participants []User     `json:"participants,omitempty" db:"-"`
 }
